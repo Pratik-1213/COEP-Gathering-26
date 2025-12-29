@@ -57,21 +57,24 @@ const Events = () => {
     <div className="relative min-h-dvh w-full bg-black overflow-hidden flex flex-col items-center justify-center">
       
       {/* ================= BACKGROUND ================= */}
+      {/* Dynamic Blurred Background Image */}
       <AnimatePresence mode="popLayout">
         <motion.div
           key={activeEvent.id + "-bg"}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
+          animate={{ opacity: 0.1 }} // Reduced opacity to keep bg darker
           exit={{ opacity: 0 }}
           transition={{ duration: 1.5 }}
           className="absolute inset-0 z-0"
         >
-          <img src={activeEvent.image} alt="bg" className="w-full h-full object-cover blur-[90px] scale-110" />
-          <div className="absolute inset-0 bg-black/60" />
+          <img src={activeEvent.image} alt="bg" className="w-full h-full object-cover blur-[100px] scale-110" />
+          {/* Heavy Overlay to ensure bg is black-ish */}
+          <div className="absolute inset-0 bg-black/80" /> 
         </motion.div>
       </AnimatePresence>
       
-      <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
+      {/* Noise Texture */}
+      <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 pointer-events-none" />
       <FloatingParticles />
 
       {/* ================= CONTENT ================= */}
@@ -124,9 +127,9 @@ const Events = () => {
                             transition={{ duration: 6, ease: "easeOut" }}
                             src={activeEvent.image} 
                             alt={activeEvent.text} 
-                            className="w-full h-full object-cover opacity-70 group-hover:opacity-50 transition-opacity duration-500"
+                            className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity duration-500"
                         />
-                        <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent" />
                     </div>
 
                     {/* Card Content */}
@@ -174,7 +177,7 @@ const Events = () => {
 
         {/* --- CONTROL DECK (Arranged Properly) --- */}
         <div className="relative z-30 mt-10 md:mt-12">
-            <div className="flex items-center gap-0 md:gap-6 px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_10px_30px_-5px_rgba(0,0,0,0.5)] hover:border-white/20 transition-colors">
+            <div className="flex items-center gap-4 md:gap-6 px-6 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_10px_30px_-5px_rgba(0,0,0,0.5)] hover:border-white/20 transition-colors">
                 
                 {/* Previous Button */}
                 <button 
