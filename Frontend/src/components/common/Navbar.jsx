@@ -53,7 +53,7 @@ export default function Navbar() {
     ${isActive ? "text-orange-500 drop-shadow-[0_0_8px_rgba(255,69,0,0.8)]" : "text-gray-300 hover:text-white"}`;
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-black/50 backdrop-blur-md border-b border-white/10 supports-[backdrop-filter]:bg-black/20">
+    <nav className="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-black/50 backdrop-blur-md border-b border-white/10 supports-backdrop-filter:bg-black/20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
@@ -71,7 +71,7 @@ export default function Navbar() {
             />
             
             {/* Text Logo */}
-            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 group-hover:animate-pulse font-['Syncopate']">
+            <span className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-red-500 via-orange-500 to-amber-500 group-hover:animate-pulse font-['Syncopate']">
               GATHERING<span className="text-white text-sm ml-1 align-top">26</span>
             </span>
           </Link>
