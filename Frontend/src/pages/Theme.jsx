@@ -47,7 +47,7 @@ export default function Theme() {
         {/* Theme name - Responsive Text Sizing */}
         {/* Changed: text-5xl on mobile to prevent cutting off, scaling up to 9xl on desktop */}
         <h1 className="w-full text-5xl sm:text-7xl md:text-9xl font-bold mb-6 md:mb-10 tracking-tight leading-tight">
-          <span className="inline-block bg-gradient-to-r from-red-500 via-orange-500 to-amber-500 bg-clip-text text-transparent animate-gradient drop-shadow-[0_0_35px_rgba(234,88,12,0.4)] py-2" style={{
+          <span className="inline-block bg-linear-to-r from-red-500 via-orange-500 to-amber-500 bg-clip-text text-transparent animate-gradient drop-shadow-[0_0_35px_rgba(234,88,12,0.4)] py-2" style={{
             fontFamily: 'Georgia, serif',
           }}>
             Anandotsav
@@ -56,9 +56,9 @@ export default function Theme() {
 
         {/* Elegant divider */}
         <div className="flex items-center justify-center gap-4 mb-8 md:mb-12 opacity-80">
-          <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-red-500 to-transparent" />
+          <div className="h-px w-16 md:w-24 bg-linear-to-r from-transparent via-red-500 to-transparent" />
           <div className="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_10px_orange]" />
-          <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-red-500 to-transparent" />
+          <div className="h-px w-16 md:w-24 bg-linear-to-r from-transparent via-red-500 to-transparent" />
         </div>
 
         {/* Description */}

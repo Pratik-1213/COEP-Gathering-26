@@ -456,7 +456,7 @@ function CircularGallery({ items, bend = 3, textColor = '#ffffff', borderRadius 
       {/* --- THEMED MODAL --- */}
       <AnimatePresence>
         {selectedEvent && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
             
             {/* Backdrop */}
             <motion.div 
@@ -485,7 +485,7 @@ function CircularGallery({ items, bend = 3, textColor = '#ffffff', borderRadius 
 
               {/* Image Header */}
               <div className="relative h-64 md:h-80 w-full">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent z-10" />
+                <div className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-transparent to-transparent z-10" />
                 <img 
                   src={selectedEvent.image} 
                   alt={selectedEvent.name || selectedEvent.text} 
@@ -520,7 +520,7 @@ function CircularGallery({ items, bend = 3, textColor = '#ffffff', borderRadius 
                     </div>
                 </div>
 
-                <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                <div className="h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent" />
 
                 <p className="text-gray-300 leading-relaxed text-sm md:text-base font-light">
                     {selectedEvent.description || selectedEvent.desc || "Experience the magic of this event. Join us for an unforgettable showcase of talent and culture."}
@@ -528,7 +528,7 @@ function CircularGallery({ items, bend = 3, textColor = '#ffffff', borderRadius 
 
                 <button 
                     onClick={() => window.location.href = '/passes'}
-                    className="w-full py-4 mt-4 bg-gradient-to-r from-red-600 to-orange-600 text-white font-bold uppercase tracking-widest hover:brightness-110 transition-all rounded-xl shadow-[0_10px_20px_rgba(220,38,38,0.3)]"
+                    className="w-full py-4 mt-4 bg-linear-to-r from-red-600 to-orange-600 text-white font-bold uppercase tracking-widest hover:brightness-110 transition-all rounded-xl shadow-[0_10px_20px_rgba(220,38,38,0.3)]"
                 >
                     Get Passes Now
                 </button>

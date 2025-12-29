@@ -19,7 +19,7 @@ export default function Footer() {
           
           {/* 1. Brand Section (Full width on mobile) */}
           <div className="col-span-2 md:col-span-1 lg:col-span-1 space-y-4">
-            <h3 className="text-2xl font-bold font-['Syncopate'] bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+            <h3 className="text-2xl font-bold font-['Syncopate'] bg-clip-text text-transparent bg-linear-to-r from-white to-gray-400">
               GATHERING
             </h3>
             <p className="text-sm leading-relaxed text-gray-400 max-w-xs">

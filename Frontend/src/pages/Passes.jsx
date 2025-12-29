@@ -46,8 +46,8 @@ const Passes = () => {
       
       {/* 1. Background Ambience (Red/Orange) */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-red-900/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-orange-900/10 rounded-full blur-[120px]" />
+        <div className="absolute top-0 right-0 w-150 h-150 bg-red-900/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-125 h-125 bg-orange-900/10 rounded-full blur-[120px]" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
       </div>
 
@@ -62,7 +62,7 @@ const Passes = () => {
             Annual Gathering 2026
           </span>
           <h1 className="text-5xl md:text-7xl font-bold font-['Syncopate'] mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-red-100 to-gray-400">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-white via-red-100 to-gray-400">
               Event Passes
             </span>
           </h1>
@@ -95,7 +95,7 @@ const EventCard = ({ event, index }) => {
     >
       {/* Image Container */}
       <div className="relative h-48 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent z-10" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-transparent to-transparent z-10" />
         <img 
           src={event.image} 
           alt={event.name} 
@@ -108,7 +108,7 @@ const EventCard = ({ event, index }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-6 flex flex-col grow">
         <h3 className="text-2xl font-bold font-['Syncopate'] text-white mb-4 group-hover:text-red-500 transition-colors">
           {event.name}
         </h3>
@@ -125,12 +125,12 @@ const EventCard = ({ event, index }) => {
           </div>
         </div>
 
-        <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">
+        <p className="text-gray-500 text-sm leading-relaxed mb-6 grow">
           {event.desc}
         </p>
 
         {/* Button */}
-        <button className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold tracking-widest uppercase hover:bg-gradient-to-r hover:from-red-600 hover:to-orange-600 hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+        <button className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold tracking-widest uppercase hover:bg-linear-to-r hover:from-red-600 hover:to-orange-600 hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">
           <Ticket size={18} />
           Get Passes
         </button>

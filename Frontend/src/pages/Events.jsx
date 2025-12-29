@@ -54,7 +54,7 @@ const Events = () => {
   };
 
   return (
-    <div className="relative min-h-[100dvh] w-full bg-black overflow-hidden flex flex-col items-center justify-center">
+    <div className="relative min-h-dvh w-full bg-black overflow-hidden flex flex-col items-center justify-center">
       
       {/* ================= BACKGROUND ================= */}
       <AnimatePresence mode="popLayout">
@@ -86,13 +86,13 @@ const Events = () => {
                 <Sparkles size={12} /> COEP Gathering 2026 <Sparkles size={12} />
             </h3>
             <h1 className="text-4xl md:text-7xl font-black font-['Syncopate'] text-white uppercase drop-shadow-2xl">
-                Event <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Showcase</span>
+                Event <span className="text-transparent bg-clip-text bg-linear-to-r from-red-500 to-orange-500">Showcase</span>
             </h1>
         </motion.div>
 
         {/* --- CAROUSEL STAGE --- */}
         <div 
-            className="relative w-full flex items-center justify-center h-[420px] md:h-[500px] perspective-1000"
+            className="relative w-full flex items-center justify-center h-105 md:h-125 perspective-1000"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
         >
@@ -114,7 +114,7 @@ const Events = () => {
                     dragConstraints={{ left: 0, right: 0 }}
                     dragElastic={0.2}
                     onDragEnd={onDragEnd}
-                    className="absolute w-[95%] md:w-[750px] h-full bg-[#0a0a0a] rounded-[2rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(220,38,38,0.5)] border border-white/10 z-30 group touch-pan-y"
+                    className="absolute w-[95%] md:w-187.5 h-full bg-[#0a0a0a] rounded-4xl overflow-hidden shadow-[0_30px_60px_-15px_rgba(220,38,38,0.5)] border border-white/10 z-30 group touch-pan-y"
                 >
                     {/* Card Image */}
                     <div className="absolute inset-0 overflow-hidden">
@@ -126,7 +126,7 @@ const Events = () => {
                             alt={activeEvent.text} 
                             className="w-full h-full object-cover opacity-70 group-hover:opacity-50 transition-opacity duration-500"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
                     </div>
 
                     {/* Card Content */}
@@ -151,7 +151,7 @@ const Events = () => {
 
                         <Link to="/passes" className="pointer-events-auto">
                             <button className="group relative px-8 py-3 bg-white text-black font-bold uppercase tracking-widest rounded-full overflow-hidden hover:scale-105 transition-transform shadow-lg hover:shadow-orange-500/50">
-                                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-red-500 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <span className="absolute inset-0 w-full h-full bg-linear-to-r from-red-500 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 <span className="relative z-10 flex items-center gap-3 group-hover:text-white transition-colors">
                                     Get Passes <ArrowRight size={18} />
                                 </span>
@@ -165,7 +165,7 @@ const Events = () => {
                             initial={{ width: "0%" }}
                             animate={{ width: "100%" }}
                             transition={{ duration: AUTO_DELAY / 1000, ease: "linear" }}
-                            className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-red-500 to-orange-500 z-50 shadow-[0_0_15px_orange]"
+                            className="absolute bottom-0 left-0 h-1 bg-linear-to-r from-red-500 to-orange-500 z-50 shadow-[0_0_15px_orange]"
                         />
                     )}
                 </motion.div>
@@ -195,7 +195,7 @@ const Events = () => {
                             }}
                             className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
                                 idx === activeIndex 
-                                ? 'w-8 bg-gradient-to-r from-red-500 to-orange-500 shadow-[0_0_10px_orange]' 
+                                ? 'w-8 bg-linear-to-r from-red-500 to-orange-500 shadow-[0_0_10px_orange]' 
                                 : 'w-2 bg-white/20 hover:bg-white/40'
                             }`}
                         />
@@ -222,7 +222,7 @@ const Events = () => {
 const SideCard = ({ onClick, image, position }) => (
     <div 
         onClick={onClick}
-        className={`hidden lg:block absolute top-1/2 -translate-y-1/2 w-[260px] h-[380px] opacity-40 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 grayscale hover:grayscale-0 rounded-3xl overflow-hidden border border-white/10 shadow-2xl hover:scale-105
+        className={`hidden lg:block absolute top-1/2 -translate-y-1/2 w-65 h-95 opacity-40 hover:opacity-80 transition-all duration-500 cursor-pointer z-10 grayscale hover:grayscale-0 rounded-3xl overflow-hidden border border-white/10 shadow-2xl hover:scale-105
             ${position === 'left' ? 'left-10 transform -rotate-y-12 scale-90' : 'right-10 transform rotate-y-12 scale-90'}
         `}
     >

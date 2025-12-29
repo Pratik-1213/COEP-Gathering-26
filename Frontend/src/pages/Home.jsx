@@ -92,7 +92,7 @@ const Home = () => {
         <img 
             src="/Logotext.png" 
             alt="Logo" 
-            className="w-[280px] md:w-[500px] object-contain drop-shadow-[0_0_30px_rgba(255,69,0,0.3)]" 
+            className="w-70 md:w-125 object-contain drop-shadow-[0_0_30px_rgba(255,69,0,0.3)]" 
         />
       </div>
 
@@ -129,7 +129,7 @@ const Home = () => {
       </video>
       
       {/* Dark Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black z-1 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-black z-1 pointer-events-none" />
 
     </div>
   );

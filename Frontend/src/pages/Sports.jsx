@@ -32,16 +32,16 @@ const Sports = () => {
          <motion.div 
            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
            transition={{ duration: 8, repeat: Infinity }}
-           className="absolute top-0 right-0 w-[600px] h-[600px] bg-red-900/30 rounded-full blur-[150px]" 
+           className="absolute top-0 right-0 w-150 h-150 bg-red-900/30 rounded-full blur-[150px]" 
          />
          <motion.div 
            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
            transition={{ duration: 10, repeat: Infinity, delay: 1 }}
-           className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-900/30 rounded-full blur-[150px]" 
+           className="absolute bottom-0 left-0 w-150 h-150 bg-orange-900/30 rounded-full blur-[150px]" 
          />
          
          {/* Grid Texture */}
-         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20" />
+         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[40px_40px] opacity-20" />
       </div>
 
       {/* 2. Header Section */}
@@ -57,15 +57,15 @@ const Sports = () => {
                 <Trophy size={20} className="text-yellow-500 animate-pulse" />
             </div>
             
-            <h1 className="text-5xl md:text-8xl font-bold font-['Syncopate'] text-transparent bg-clip-text bg-gradient-to-b from-white via-gray-200 to-gray-500 drop-shadow-[0_0_30px_rgba(255,69,0,0.5)]">
+            <h1 className="text-5xl md:text-8xl font-bold font-['Syncopate'] text-transparent bg-clip-text bg-linear-to-b from-white via-gray-200 to-gray-500 drop-shadow-[0_0_30px_rgba(255,69,0,0.5)]">
             SPORTS
             </h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent mx-auto mt-4" />
+            <div className="w-24 h-1 bg-linear-to-r from-transparent via-red-600 to-transparent mx-auto mt-4" />
         </motion.div>
       </div>
 
       {/* 3. The 3D Carousel */}
-      <div className="w-full max-w-[1400px] px-4 relative z-10">
+      <div className="w-full max-w-350 px-4 relative z-10">
         <Swiper
           effect="coverflow"
           centeredSlides={true}
@@ -91,7 +91,7 @@ const Sports = () => {
         >
           {sportsData.map((item, index) => (
             <SwiperSlide key={index} className="group">
-               <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 bg-gray-900 transition-all duration-500 group-hover:border-red-500/50 group-hover:shadow-[0_0_50px_rgba(220,38,38,0.3)]">
+               <div className="relative aspect-3/4 rounded-2xl overflow-hidden border border-white/10 bg-gray-900 transition-all duration-500 group-hover:border-red-500/50 group-hover:shadow-[0_0_50px_rgba(220,38,38,0.3)]">
                   
                   {/* Image with Zoom Effect */}
                   <div className="absolute inset-0 overflow-hidden">
@@ -101,11 +101,11 @@ const Sports = () => {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
                     />
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent opacity-90" />
                   </div>
 
                   {/* Hover Glare Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 bg-linear-to-tr from-white/0 via-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                   {/* Content */}
                   <div className="absolute bottom-0 left-0 w-full p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
@@ -123,7 +123,7 @@ const Sports = () => {
                     </h2>
                     
                     {/* Animated Line */}
-                    <div className="w-12 h-1.5 bg-red-600 skew-x-[-20deg] group-hover:w-full group-hover:bg-gradient-to-r group-hover:from-red-600 group-hover:to-orange-500 transition-all duration-500" />
+                    <div className="w-12 h-1.5 bg-red-600 skew-x-[-20deg] group-hover:w-full group-hover:bg-linear-to-r group-hover:from-red-600 group-hover:to-orange-500 transition-all duration-500" />
                   </div>
                </div>
             </SwiperSlide>
