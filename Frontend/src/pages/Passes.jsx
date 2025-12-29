@@ -1,279 +1,141 @@
-// Passes.jsx
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Ticket, Calendar, MapPin, Clock } from "lucide-react";
 
 const events = [
   {
     name: "Star Night",
-    time: "7:00 PM · Main Stage",
+    time: "7:00 PM",
+    venue: "Main Stage",
     desc: "Celebrity performances, band showdown, and a dazzling light show.",
-    image:
-      "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image: "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   {
     name: "Tech Expo",
-    time: "11:00 AM · Innovation Hall",
+    time: "11:00 AM",
+    venue: "Innovation Hall",
     desc: "Showcase of projects, AR/VR zone, and live tech demos.",
-    image:
-      "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   {
     name: "Cultural Fiesta",
-    time: "4:00 PM · Open Arena",
+    time: "4:00 PM",
+    venue: "Open Arena",
     desc: "Dance, drama, and folk performances from across the country.",
-    image:
-      "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image: "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   {
     name: "Gaming Arena",
-    time: "1:00 PM · Lab Block",
+    time: "1:00 PM",
+    venue: "Lab Block",
     desc: "E-sports tournaments, casual gaming zone, and mini-prizes.",
-    image:
-      "https://images.pexels.com/photos/786244/pexels-photo-786244.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image: "https://images.pexels.com/photos/786244/pexels-photo-786244.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   {
     name: "Art & Open Mic",
-    time: "3:00 PM · Studio Lounge",
+    time: "3:00 PM",
+    venue: "Studio Lounge",
     desc: "Live music, poetry, stand-up, and art exhibition corners.",
-    image:
-      "https://images.pexels.com/photos/164745/pexels-photo-164745.jpeg?auto=compress&cs=tinysrgb&w=800"
+    image: "https://images.pexels.com/photos/164745/pexels-photo-164745.jpeg?auto=compress&cs=tinysrgb&w=800"
   }
 ];
 
-const styles = {
-  page: {
-    position: "relative",
-    minHeight: "100vh",
-    padding: "8rem 1.5rem 4rem", // Kept high padding for Navbar
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    fontFamily:
-      "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    color: "#f9fafb",
-    // CHANGED: Pure black background with very subtle bottom gradient
-    background: "linear-gradient(to bottom, #000000 0%, #0a0a0a 100%)",
-    overflowX: "hidden"
-  },
-  bgGradient: {
-    position: "absolute",
-    inset: 0,
-    // CHANGED: Much subtler, lower opacity spotlights
-    background:
-      "radial-gradient(circle at 50% 0%, rgba(220, 38, 38, 0.15), transparent 40%)," + // Top center faint red
-      "radial-gradient(circle at 90% 90%, rgba(234, 88, 12, 0.08), transparent 40%)", // Bottom right faint orange
-    filter: "blur(60px)",
-    zIndex: 0,
-    pointerEvents: "none"
-  },
-  hero: {
-    position: "relative",
-    textAlign: "center",
-    maxWidth: "720px",
-    zIndex: 1,
-    marginBottom: "4rem"
-  },
-  badge: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "0.5rem",
-    padding: "0.35rem 1rem",
-    borderRadius: "999px",
-    fontSize: "0.75rem",
-    fontWeight: "700",
-    letterSpacing: "0.15em",
-    textTransform: "uppercase",
-    background: "rgba(255, 255, 255, 0.03)",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    color: "#fb923c", // Orange text
-    marginBottom: "1.5rem"
-  },
-  title: {
-    fontSize: "clamp(2.5rem, 5vw, 4rem)",
-    lineHeight: 1.1,
-    margin: 0,
-    fontWeight: "800",
-    letterSpacing: "-0.03em",
-    color: "#ffffff",
-    textShadow: "0 0 40px rgba(0,0,0,0.5)"
-  },
-  subtitle: {
-    marginTop: "1.5rem",
-    fontSize: "1.1rem",
-    lineHeight: "1.6",
-    color: "#a1a1aa", // Zinc-400
-    maxWidth: "500px",
-    marginLeft: "auto",
-    marginRight: "auto"
-  },
-  main: {
-    position: "relative",
-    zIndex: 1,
-    width: "100%",
-    maxWidth: "1200px"
-  },
-  cardGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-    gap: "2rem"
-  },
-  card: {
-    position: "relative",
-    borderRadius: "1rem",
-    // CHANGED: Very dark, neutral background
-    background: "#09090b", 
-    border: "1px solid rgba(255, 255, 255, 0.08)",
-    boxShadow: "0 0 0 1px rgba(0,0,0,0)", 
-    overflow: "hidden",
-    transition: "all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)",
-    cursor: "pointer",
-    display: "flex",
-    flexDirection: "column"
-  },
-  cardImageWrapper: {
-    position: "relative",
-    height: "200px",
-    overflow: "hidden"
-  },
-  cardImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    transition: "transform 0.5s ease"
-  },
-  imageOverlay: {
-    position: "absolute",
-    inset: 0,
-    // Subtle fade at bottom of image
-    background: "linear-gradient(to bottom, transparent 60%, #09090b 100%)",
-    zIndex: 1
-  },
-  cardBody: {
-    padding: "1.75rem",
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1
-  },
-  cardTitle: {
-    fontSize: "1.5rem",
-    fontWeight: "700",
-    margin: "0 0 0.5rem 0",
-    color: "#fff",
-    fontFamily: "'Syncopate', sans-serif" 
-  },
-  cardMeta: {
-    margin: 0,
-    fontSize: "0.8rem",
-    fontWeight: "600",
-    color: "#f87171", // Muted Red
-    marginBottom: "1rem",
-    textTransform: "uppercase",
-    letterSpacing: "0.05em"
-  },
-  cardDesc: {
-    margin: 0,
-    fontSize: "0.95rem",
-    lineHeight: "1.6",
-    color: "#a1a1aa", // Neutral Gray
-    marginBottom: "2rem",
-    flexGrow: 1
-  },
-  cardButton: {
-    width: "100%",
-    padding: "1rem",
-    borderRadius: "0.5rem",
-    border: "none",
-    fontSize: "0.8rem",
-    fontWeight: "700",
-    letterSpacing: "0.15em",
-    textTransform: "uppercase",
-    color: "#fff",
-    // Gradient only on button now
-    background: "linear-gradient(90deg, #b91c1c 0%, #ea580c 100%)",
-    cursor: "pointer",
-    transition: "all 0.2s ease",
-    position: "relative",
-    overflow: "hidden"
-  }
+const Passes = () => {
+  return (
+    <div className="relative min-h-screen bg-black text-white overflow-hidden pt-32 pb-20 px-4 md:px-8">
+      
+      {/* 1. Background Ambience (Red/Orange) */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-red-900/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-orange-900/10 rounded-full blur-[120px]" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+      </div>
+
+      {/* 2. Header Section */}
+      <div className="relative z-10 text-center max-w-4xl mx-auto mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="inline-block py-1 px-3 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold tracking-[0.2em] uppercase mb-4 backdrop-blur-md">
+            Annual Gathering 2026
+          </span>
+          <h1 className="text-5xl md:text-7xl font-bold font-['Syncopate'] mb-6">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-red-100 to-gray-400">
+              Event Passes
+            </span>
+          </h1>
+          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-light">
+            Secure your spot. Pick your favorite events and grab your <span className="text-orange-500 font-semibold">Get Pass</span> to enter the celebration.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* 3. Cards Grid */}
+      <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {events.map((event, index) => (
+          <EventCard key={index} event={event} index={index} />
+        ))}
+      </div>
+
+    </div>
+  );
 };
 
-const Passes = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-
+// --- Sub-Component: Event Card ---
+const EventCard = ({ event, index }) => {
   return (
-    <div style={styles.page}>
-      {/* Background Ambience */}
-      <div style={styles.bgGradient} />
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group relative bg-[#0a0a0a] border border-white/5 rounded-2xl overflow-hidden hover:border-red-500/50 transition-colors duration-300 flex flex-col"
+    >
+      {/* Image Container */}
+      <div className="relative h-48 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent z-10" />
+        <img 
+          src={event.image} 
+          alt={event.name} 
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+        />
+        {/* Category Tag */}
+        <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+          <span className="text-xs font-bold text-white uppercase tracking-wider">2026</span>
+        </div>
+      </div>
 
-      {/* Hero Section */}
-      <header style={styles.hero}>
-        <div style={styles.badge}>Annual Gathering • 2026</div>
-        <h1 style={styles.title}>Event Passes</h1>
-        <p style={styles.subtitle}>
-          Secure your spot. Pick your favorite events and grab your{" "}
-          <span style={{ color: "#fff", borderBottom: "1px solid #ea580c" }}>Get Pass</span> to
-          enter the celebration.
+      {/* Content */}
+      <div className="p-6 flex flex-col flex-grow">
+        <h3 className="text-2xl font-bold font-['Syncopate'] text-white mb-4 group-hover:text-red-500 transition-colors">
+          {event.name}
+        </h3>
+        
+        {/* Info Row */}
+        <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+          <div className="flex items-center gap-1.5">
+            <Clock size={16} className="text-orange-500" />
+            <span>{event.time}</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <MapPin size={16} className="text-orange-500" />
+            <span>{event.venue}</span>
+          </div>
+        </div>
+
+        <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">
+          {event.desc}
         </p>
-      </header>
 
-      {/* Main Grid */}
-      <main style={styles.main}>
-        <section style={styles.cardGrid}>
-          {events.map((event, index) => {
-            const isHovered = hoveredIndex === index;
-            return (
-              <article
-                key={index}
-                style={{
-                  ...styles.card,
-                  transform: isHovered ? "translateY(-6px)" : "translateY(0)",
-                  // Only subtle border glow on hover
-                  borderColor: isHovered ? "rgba(255,255,255,0.2)" : "rgba(255, 255, 255, 0.08)",
-                  boxShadow: isHovered 
-                    ? "0 20px 40px -5px rgba(0,0,0,0.8)" 
-                    : "0 4px 6px -1px rgba(0,0,0,0.5)"
-                }}
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
-              >
-                {/* Image Area */}
-                <div style={styles.cardImageWrapper}>
-                  <div style={styles.imageOverlay} />
-                  <img
-                    src={event.image}
-                    alt={event.name}
-                    style={{
-                      ...styles.cardImage,
-                      transform: isHovered ? "scale(1.05)" : "scale(1)",
-                      // Slight desaturation that returns to color on hover
-                      filter: isHovered ? "grayscale(0%)" : "grayscale(20%)"
-                    }}
-                  />
-                </div>
-
-                {/* Content Area */}
-                <div style={styles.cardBody}>
-                  <h2 style={styles.cardTitle}>{event.name}</h2>
-                  <p style={styles.cardMeta}>{event.time}</p>
-                  <p style={styles.cardDesc}>{event.desc}</p>
-                  
-                  {/* Button */}
-                  <button
-                    type="button"
-                    style={{
-                      ...styles.cardButton,
-                      opacity: isHovered ? 1 : 0.9,
-                      transform: isHovered ? "scale(1.02)" : "scale(1)"
-                    }}
-                  >
-                    Get Passes
-                  </button>
-                </div>
-              </article>
-            );
-          })}
-        </section>
-      </main>
-    </div>
+        {/* Button */}
+        <button className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold tracking-widest uppercase hover:bg-gradient-to-r hover:from-red-600 hover:to-orange-600 hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+          <Ticket size={18} />
+          Get Passes
+        </button>
+      </div>
+    </motion.div>
   );
 };
 

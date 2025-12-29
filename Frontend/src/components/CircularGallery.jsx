@@ -1,7 +1,10 @@
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
 import { useEffect, useRef, useState } from 'react';
-import { events } from '../data/events';
+import { events } from '../data/events'; 
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Calendar, MapPin } from 'lucide-react';
 
+// --- UTILS ---
 function debounce(func, wait) {
   let timeout;
   return function (...args) {
@@ -23,28 +26,41 @@ function autoBind(instance) {
   });
 }
 
-function createTextTexture(gl, text, font = 'bold 30px monospace', color = 'black') {
+// --- TEXT TEXTURE GENERATOR (FIXED) ---
+function createTextTexture(gl, text, font = 'bold 30px monospace', color = 'white') {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
   context.font = font;
+  
   const metrics = context.measureText(text);
   const textWidth = Math.ceil(metrics.width);
-  const textHeight = Math.ceil(parseInt(font, 10) * 1.2);
-  canvas.width = textWidth + 20;
-  canvas.height = textHeight + 20;
+  
+  // FIX: Extract number safely from font string (e.g., "bold 30px" -> 30)
+  const fontSizeMatch = font.match(/(\d+)px/);
+  const fontSize = fontSizeMatch ? parseInt(fontSizeMatch[1], 10) : 30;
+  const textHeight = Math.ceil(fontSize * 1.5);
+
+  // Avoid creating 0x0 canvas
+  canvas.width = textWidth > 0 ? textWidth + 20 : 100;
+  canvas.height = textHeight > 0 ? textHeight + 20 : 50;
+
   context.font = font;
   context.fillStyle = color;
   context.textBaseline = 'middle';
   context.textAlign = 'center';
+  
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.fillText(text, canvas.width / 2, canvas.height / 2);
+  
   const texture = new Texture(gl, { generateMipmaps: false });
   texture.image = canvas;
   return { texture, width: canvas.width, height: canvas.height };
 }
 
+// --- OGL CLASSES ---
+
 class Title {
-  constructor({ gl, plane, renderer, text, textColor = '#545050', font = '30px sans-serif' }) {
+  constructor({ gl, plane, renderer, text, textColor = '#ffffff', font = '30px sans-serif' }) {
     autoBind(this);
     this.gl = gl;
     this.plane = plane;
@@ -93,24 +109,7 @@ class Title {
 }
 
 class Media {
-  constructor({
-    geometry,
-    gl,
-    image,
-    index,
-    length,
-    renderer,
-    scene,
-    screen,
-    text,
-    viewport,
-    bend,
-    textColor,
-    borderRadius = 0,
-    font,
-    data,
-    onClickCallback
-  }) {
+  constructor({ geometry, gl, image, index, length, renderer, scene, screen, text, viewport, bend, textColor, borderRadius = 0, font, data, onClickCallback }) {
     this.extra = 0;
     this.geometry = geometry;
     this.gl = gl;
@@ -134,9 +133,7 @@ class Media {
     this.onResize();
   }
   createShader() {
-    const texture = new Texture(this.gl, {
-      generateMipmaps: true
-    });
+    const texture = new Texture(this.gl, { generateMipmaps: true });
     this.program = new Program(this.gl, {
       depthTest: false,
       depthWrite: false,
@@ -179,19 +176,17 @@ class Media {
             vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
           );
           vec4 color = texture2D(tMap, uv);
-          
           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
-          
           float edgeSmooth = 0.002;
           float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
-          
           gl_FragColor = vec4(color.rgb, alpha);
         }
       `,
       uniforms: {
         tMap: { value: texture },
         uPlaneSizes: { value: [0, 0] },
-        uImageSizes: { value: [0, 0] },
+        // FIX: Init with 1,1 to avoid division by zero in shader
+        uImageSizes: { value: [1, 1] }, 
         uSpeed: { value: 0 },
         uTime: { value: 100 * Math.random() },
         uBorderRadius: { value: this.borderRadius }
@@ -207,10 +202,7 @@ class Media {
     };
   }
   createMesh() {
-    this.plane = new Mesh(this.gl, {
-      geometry: this.geometry,
-      program: this.program
-    });
+    this.plane = new Mesh(this.gl, { geometry: this.geometry, program: this.program });
     this.plane.setParent(this.scene);
   }
   createTitle() {
@@ -220,12 +212,11 @@ class Media {
       renderer: this.renderer,
       text: this.text,
       textColor: this.textColor,
-      fontFamily: this.font
+      font: this.font
     });
   }
   update(scroll, direction) {
     this.plane.position.x = this.x - scroll.current - this.extra;
-
     const x = this.plane.position.x;
     const H = this.viewport.width / 2;
 
@@ -236,7 +227,6 @@ class Media {
       const B_abs = Math.abs(this.bend);
       const R = (H * H + B_abs * B_abs) / (2 * B_abs);
       const effectiveX = Math.min(Math.abs(x), H);
-
       const arc = R - Math.sqrt(R * R - effectiveX * effectiveX);
       if (this.bend > 0) {
         this.plane.position.y = -arc;
@@ -285,35 +275,18 @@ class Media {
     const rect = canvas.getBoundingClientRect();
     const x = ((clientX - rect.left) / rect.width) * 2 - 1;
     const y = -((clientY - rect.top) / rect.height) * 2 + 1;
-    
     const planeX = this.plane.position.x;
     const planeY = this.plane.position.y;
     const scaleX = this.plane.scale.x;
     const scaleY = this.plane.scale.y;
-    
     const viewX = x * (this.viewport.width / 2);
     const viewY = y * (this.viewport.height / 2);
-    
-    const isInside = Math.abs(viewX - planeX) < scaleX / 2 && Math.abs(viewY - planeY) < scaleY / 2;
-    
-    return isInside;
+    return Math.abs(viewX - planeX) < scaleX / 2 && Math.abs(viewY - planeY) < scaleY / 2;
   }
 }
 
 class App {
-  constructor(
-    container,
-    {
-      items,
-      bend,
-      textColor = '#ffffff',
-      borderRadius = 0,
-      font = 'bold 30px Figtree',
-      scrollSpeed = 2,
-      scrollEase = 0.05,
-      onMediaClick
-    } = {}
-  ) {
+  constructor(container, { items, bend, textColor = '#ffffff', borderRadius = 0, font = 'bold 30px Figtree', scrollSpeed = 2, scrollEase = 0.05, onMediaClick } = {}) {
     document.documentElement.classList.remove('no-js');
     this.container = container;
     this.scrollSpeed = scrollSpeed;
@@ -330,11 +303,7 @@ class App {
     this.addEventListeners();
   }
   createRenderer() {
-    this.renderer = new Renderer({
-      alpha: true,
-      antialias: true,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
-    });
+    this.renderer = new Renderer({ alpha: true, antialias: true, dpr: Math.min(window.devicePixelRatio || 1, 2) });
     this.gl = this.renderer.gl;
     this.gl.clearColor(0, 0, 0, 0);
     this.container.appendChild(this.gl.canvas);
@@ -344,14 +313,9 @@ class App {
     this.camera.fov = 45;
     this.camera.position.z = 20;
   }
-  createScene() {
-    this.scene = new Transform();
-  }
+  createScene() { this.scene = new Transform(); }
   createGeometry() {
-    this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 50,
-      widthSegments: 100
-    });
+    this.planeGeometry = new Plane(this.gl, { heightSegments: 50, widthSegments: 100 });
   }
   createMedias(items, bend = 1, textColor, borderRadius, font) {
     const galleryItems = items && items.length ? items : events;
@@ -366,7 +330,7 @@ class App {
         renderer: this.renderer,
         scene: this.scene,
         screen: this.screen,
-        text: data.text,
+        text: data.name || data.text,
         viewport: this.viewport,
         bend,
         textColor,
@@ -387,31 +351,21 @@ class App {
     if (!this.isDown) return;
     const x = e.touches ? e.touches[0].clientX : e.clientX;
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
-    
-    if (Math.abs(distance) > 2) {
-      this.hasMoved = true;
-    }
-    
+    if (Math.abs(distance) > 2) this.hasMoved = true;
     this.scroll.target = this.scroll.position + distance;
   }
   onTouchUp(e) {
-    if (this.isDown && !this.hasMoved) {
-      this.handleClick(e);
-    }
+    if (this.isDown && !this.hasMoved) this.handleClick(e);
     this.isDown = false;
     this.onCheck();
   }
   handleClick(e) {
     const clientX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX);
     const clientY = e.clientY || (e.changedTouches && e.changedTouches[0].clientY);
-    
     if (!clientX || !clientY) return;
-    
     for (let media of this.medias) {
       if (media.isClicked(clientX, clientY, this.gl.canvas)) {
-        if (this.onMediaClick) {
-          this.onMediaClick(media.data);
-        }
+        if (this.onMediaClick) this.onMediaClick(media.data);
         break;
       }
     }
@@ -429,28 +383,19 @@ class App {
     this.scroll.target = this.scroll.target < 0 ? -item : item;
   }
   onResize() {
-    this.screen = {
-      width: this.container.clientWidth,
-      height: this.container.clientHeight
-    };
+    this.screen = { width: this.container.clientWidth, height: this.container.clientHeight };
     this.renderer.setSize(this.screen.width, this.screen.height);
-    this.camera.perspective({
-      aspect: this.screen.width / this.screen.height
-    });
+    this.camera.perspective({ aspect: this.screen.width / this.screen.height });
     const fov = (this.camera.fov * Math.PI) / 180;
     const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
     const width = height * this.camera.aspect;
     this.viewport = { width, height };
-    if (this.medias) {
-      this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
-    }
+    if (this.medias) this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
   }
   update() {
     this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
     const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
-    if (this.medias) {
-      this.medias.forEach(media => media.update(this.scroll, direction));
-    }
+    if (this.medias) this.medias.forEach(media => media.update(this.scroll, direction));
     this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
     this.raf = window.requestAnimationFrame(this.update.bind(this));
@@ -488,100 +433,113 @@ class App {
   }
 }
 
-function CircularGallery({
-  items,
-  bend = 3,
-  textColor = '#ffffff',
-  borderRadius = 0.05,
-  font = 'bold 30px Figtree',
-  scrollSpeed = 2,
-  scrollEase = 0.05
-}) {
+// --- MAIN COMPONENT ---
+function CircularGallery({ items, bend = 3, textColor = '#ffffff', borderRadius = 0.05, font = 'bold 30px Figtree', scrollSpeed = 2, scrollEase = 0.05 }) {
   const containerRef = useRef(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [isClosing, setIsClosing] = useState(false);
   
   useEffect(() => {
+    // Only init if container exists
+    if(!containerRef.current) return;
+
     const app = new App(containerRef.current, { 
-      items, 
-      bend, 
-      textColor, 
-      borderRadius, 
-      font, 
-      scrollSpeed, 
-      scrollEase,
+      items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase,
       onMediaClick: (data) => setSelectedEvent(data)
     });
-    return () => {
-      app.destroy();
-    };
+    return () => { app.destroy(); };
   }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase]);
-  
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setSelectedEvent(null);
-      setIsClosing(false);
-    }, 300);
-  };
   
   return (
     <>
       <div className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing" ref={containerRef} />
       
-      {selectedEvent && (
-        <div 
-          className={`fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm transition-all duration-300 ${
-            isClosing ? 'opacity-0' : 'opacity-100'
-          }`}
-          style={{
-            background: 'rgba(0, 0, 0, 0.3)'
-          }}
-          onClick={handleClose}
-        >
-          <div 
-            className={`relative bg-white rounded-lg max-w-3xl max-h-[90vh] overflow-auto shadow-2xl transition-all duration-300 ${
-              isClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
-            }`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-black bg-opacity-50 hover:bg-opacity-70 text-white rounded-full z-10 transition-all"
-              onClick={handleClose}
-            >
-              ✕
-            </button>
+      {/* --- THEMED MODAL --- */}
+      <AnimatePresence>
+        {selectedEvent && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             
-            <img
-              src={selectedEvent.image}
-              alt={selectedEvent.text}
-              className="w-full h-auto max-h-[60vh] object-cover rounded-t-lg"
+            {/* Backdrop */}
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+              onClick={() => setSelectedEvent(null)}
             />
-            
-            <div className="p-8">
-              <h2 className="text-3xl font-bold mb-4 text-gray-900">{selectedEvent.text}</h2>
-              <p className="text-lg text-gray-700 leading-relaxed">{selectedEvent.description}</p>
-            </div>
+
+            {/* Modal Card */}
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 50 }} 
+              animate={{ scale: 1, opacity: 1, y: 0 }} 
+              exit={{ scale: 0.9, opacity: 0, y: 50 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-2xl bg-[#0a0a0a] border border-red-900/50 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(220,38,38,0.2)]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              
+              {/* Close Button */}
+              <button 
+                onClick={() => setSelectedEvent(null)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white/70 hover:text-red-500 hover:bg-white/10 transition-all z-20"
+              >
+                <X size={24} />
+              </button>
+
+              {/* Image Header */}
+              <div className="relative h-64 md:h-80 w-full">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent z-10" />
+                <img 
+                  src={selectedEvent.image} 
+                  alt={selectedEvent.name || selectedEvent.text} 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-4 left-6 z-20">
+                    <span className="px-3 py-1 bg-red-600/90 text-white text-xs font-bold uppercase tracking-wider rounded-full mb-2 inline-block">
+                        Featured Event
+                    </span>
+                    <h2 className="text-3xl md:text-4xl font-bold font-['Syncopate'] text-white uppercase drop-shadow-lg">
+                        {selectedEvent.name || selectedEvent.text}
+                    </h2>
+                </div>
+              </div>
+
+              {/* Content Body */}
+              <div className="p-6 md:p-8 space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3 text-gray-300">
+                        <Calendar className="text-orange-500" size={20} />
+                        <div>
+                            <p className="text-xs text-gray-500 uppercase font-bold">Date</p>
+                            <p className="text-sm font-semibold">March 2026</p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3 text-gray-300">
+                        <MapPin className="text-orange-500" size={20} />
+                        <div>
+                            <p className="text-xs text-gray-500 uppercase font-bold">Venue</p>
+                            <p className="text-sm font-semibold">{selectedEvent.time ? selectedEvent.time.split('·')[1] : "COEP Main Campus"}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+                <p className="text-gray-300 leading-relaxed text-sm md:text-base font-light">
+                    {selectedEvent.description || selectedEvent.desc || "Experience the magic of this event. Join us for an unforgettable showcase of talent and culture."}
+                </p>
+
+                <button 
+                    onClick={() => window.location.href = '/passes'}
+                    className="w-full py-4 mt-4 bg-gradient-to-r from-red-600 to-orange-600 text-white font-bold uppercase tracking-widest hover:brightness-110 transition-all rounded-xl shadow-[0_10px_20px_rgba(220,38,38,0.3)]"
+                >
+                    Get Passes Now
+                </button>
+              </div>
+
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </>
   );
 }
 
-export default function Events() {
-  return (
-    <div style={{ minHeight: "100vh", position: "relative"}}>
-
-      <div style={{ height: "600px" }}>
-        <CircularGallery
-          items={events}
-          bend={0}
-          textColor="#ffffff"
-          borderRadius={0.05}
-          scrollEase={0.02}
-        />
-      </div>
-    </div>
-  );
-}
+export default CircularGallery;

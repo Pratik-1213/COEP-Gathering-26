@@ -62,12 +62,12 @@ const Home = () => {
   };
 
   return (
-    <div className="w-full h-screen relative overflow-hidden bg-black mask-[linear-gradient(to_bottom,black_80%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,black_80%,transparent)]">
-      {/* Light Rays Effect */}
-      <div className="absolute inset-0 z-1 pointer-events-none transition-opacity duration-2000 ease-in" style={{ opacity: lightRaysOpacity }}>
+    <div className="w-full h-screen relative overflow-hidden bg-black">
+      {/* Light Rays Effect - Changed to Gold/Orange */}
+      <div className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-2000 ease-in mix-blend-screen" style={{ opacity: lightRaysOpacity }}>
         <LightRays
           raysOrigin="top-center"
-          raysColor="#00ffff"
+          raysColor="#ffaa00" 
           raysSpeed={1.5}
           lightSpread={0.8}
           rayLength={1.2}
@@ -79,9 +79,9 @@ const Home = () => {
         />
       </div>
 
-      {/* Logo */}
+      {/* Logo - Responsive Sizing */}
       <div
-        className="absolute top-1/2 left-[47%] z-3 transition-all duration-1500 ease-out"
+        className="absolute top-1/2 left-1/2 z-30 transition-all duration-1500 ease-out w-full px-4 flex justify-center"
         style={{
           transform: showLogo
             ? "translate(-50%, -60%)"
@@ -89,18 +89,27 @@ const Home = () => {
           opacity: showLogo ? 1 : 0,
         }}
       >
-        <img src="/Logotext.png" alt="Logo" style={{ width: "500px" }} />
+        <img 
+            src="/Logotext.png" 
+            alt="Logo" 
+            className="w-[280px] md:w-[500px] object-contain drop-shadow-[0_0_30px_rgba(255,69,0,0.3)]" 
+        />
       </div>
 
-      {/* Tagline */}
+      {/* Tagline - Theme Colors */}
       <div
-        className="absolute top-[58%] left-[53%] z-3 transition-all duration-1800 ease-[cubic-bezier(0.34,1.56,0.64,1)] font-['Cinzel_Decorative','Trajan_Pro',serif] text-[36px] font-semibold italic tracking-[3px] bg-[linear-gradient(135deg,#f4e4c1_0%,#e8d4a8_50%,#d4af7a_100%)] bg-clip-text text-transparent [text-shadow:0_0_20px_rgba(244,228,193,0.5)]"
+        className="absolute top-[60%] left-1/2 z-30 w-full text-center transition-all duration-1800 ease-[cubic-bezier(0.34,1.56,0.64,1)] font-['Cinzel_Decorative','Trajan_Pro',serif] text-xl md:text-[36px] font-semibold italic tracking-[3px]"
         style={{
           transform: showTagline
-            ? "translate(-30%, 10%)"
-            : "translate(-30%, -10%)",
+            ? "translate(-50%, 0%)"
+            : "translate(-50%, 20%)",
           opacity: showTagline ? 1 : 0,
           filter: showTagline ? "blur(0px)" : "blur(10px)",
+          // Gold/Red Gradient Text
+          background: "linear-gradient(135deg, #f4e4c1 0%, #e8d4a8 50%, #d4af7a 100%)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          textShadow: "0 0 20px rgba(244, 228, 193, 0.3)"
         }}
       >
         where cultures unite
@@ -111,13 +120,16 @@ const Home = () => {
         ref={videoRef}
         autoPlay={!hasPlayedVideo}
         muted
+        playsInline // Important for mobile
         onEnded={handleVideoEnd}
-        preload="metadata"
-        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none opacity-60"
       >
         <source src="/curtains.mp4" type="video/mp4" />
         <source src="/curtains.webm" type="video/webm" />
       </video>
+      
+      {/* Dark Overlay Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black z-1 pointer-events-none" />
 
     </div>
   );
