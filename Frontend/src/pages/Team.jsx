@@ -1,83 +1,150 @@
 import React from 'react';
-// Import the JSON data. 
-// If this file is dynamically loaded or fetched, you might need a useEffect. 
-// For now, assuming it's imported locally as per your file structure.
+import { motion } from 'framer-motion';
+import { Linkedin, Instagram, Sparkles, User } from 'lucide-react';
 import teamData from '../data/team.json'; 
-import { Linkedin, Instagram } from 'lucide-react';
 
 const Team = () => {
   return (
-    <div className="min-h-screen relative bg-black overflow-hidden pt-24 pb-20">
+    <div className="min-h-screen relative bg-black overflow-x-hidden pt-28 pb-20">
       
-      {/* Animated Background Layers */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_20%_30%,rgba(168,85,247,0.15),transparent_50%)] animate-[float_20s_ease-in-out_infinite]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_80%_20%,rgba(59,130,246,0.1),transparent_50%)] animate-[float_25s_ease-in-out_infinite_reverse]" />
-      <div className="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[50px_50px]" />
-
-      {/* Header */}
-      <div className="relative z-10 text-center mb-20">
-        <h1 className="text-5xl md:text-7xl font-bold font-['Syncopate'] text-white mb-4 animate-[fade-in-up_1s_ease-out]">
-          OUR TEAM
-        </h1>
-        <div className="h-1 w-24 bg-linear-to-r from-red-500 to-orange-500 mx-auto rounded-full" />
+      {/* --- Ambient Background --- */}
+      <div className="fixed inset-0 pointer-events-none">
+         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-gradient-to-b from-red-900/20 to-transparent blur-[100px]" />
+         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-orange-900/10 rounded-full blur-[120px]" />
+         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
-        {teamData.teamSections.map((section, sectionIndex) => (
-          <div key={sectionIndex} className="animate-[fade-in-up_1s_ease-out]" style={{ animationDelay: `${sectionIndex * 0.1}s` }}>
-            
-            {/* Section Title */}
-            <h2 className="text-3xl font-bold text-center text-gray-200 mb-10 tracking-wider uppercase font-['Syncopate'] border-b border-white/10 pb-4 inline-block w-full">
-              {section.title}
-            </h2>
+      {/* --- Header --- */}
+      <div className="relative z-10 text-center mb-16 px-4">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col items-center"
+        >
+            <h3 className="text-orange-500 tracking-[0.3em] text-[10px] md:text-xs font-bold uppercase mb-4 flex items-center gap-2">
+                <Sparkles size={12} /> The Creators <Sparkles size={12} />
+            </h3>
+            <h1 className="text-4xl md:text-7xl font-black font-['Syncopate'] text-white uppercase drop-shadow-lg text-center leading-tight">
+                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Core Team</span>
+            </h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent mt-6 rounded-full" />
+        </motion.div>
+      </div>
 
-            {/* Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
-              {section.members.map((member, idx) => (
-                <div
-                  key={idx}
-                  className="group relative w-full max-w-sm aspect-3/4 rounded-2xl overflow-hidden bg-gray-900 border border-white/10 hover:border-red-500/50 transition-all duration-500 hover:-translate-y-2 shadow-2xl"
-                >
-                  {/* Image */}
-                  <div className="absolute inset-0">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      onError={(e) => { e.target.src = "https://via.placeholder.com/400x500?text=Member"; }} // Fallback
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent opacity-90 group-hover:opacity-70 transition-opacity" />
-                  </div>
+      {/* --- Main Content --- */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 space-y-24">
+        {teamData.teamSections.map((section, idx) => (
+          <TeamSection key={idx} section={section} index={idx} />
+        ))}
+      </div>
 
-                  {/* Info Card - Slide Up */}
-                  <div className="absolute inset-x-0 bottom-0 p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 bg-linear-to-t from-black to-transparent">
-                    <h3 className="text-xl font-bold text-white mb-1 group-hover:text-red-400 transition-colors">{member.name}</h3>
-                    <p className="text-sm text-gray-400 font-medium tracking-wide uppercase mb-4">{member.role}</p>
-                    
-                    {/* Social Icons */}
-                    <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                      {member.linkedin && (
-                        <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-blue-400 transition-colors">
-                          <Linkedin size={20} />
-                        </a>
-                      )}
-                      {member.instagram && (
-                        <a href={member.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-pink-500 transition-colors">
-                          <Instagram size={20} />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* Hover Glare */}
-                  <div className="absolute inset-0 pointer-events-none bg-linear-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
-              ))}
-            </div>
-          </div>
+    </div>
+  );
+};
+
+// --- Section Component ---
+const TeamSection = ({ section, index }) => {
+  return (
+    <div className="w-full flex flex-col items-center">
+      
+      {/* Section Title (Centered) */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="flex items-center justify-center gap-4 mb-10 w-full max-w-2xl"
+      >
+         <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/20" />
+         <h2 className="text-2xl md:text-4xl font-bold text-white font-['Syncopate'] uppercase text-center tracking-wide">
+           {section.title}
+         </h2>
+         <div className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
+      </motion.div>
+
+      {/* LAYOUT FIX: 
+         Changed from 'grid' to 'flex' with 'justify-center'.
+         This centers the cards even if there are only 2 items in a row.
+      */}
+      <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full">
+        {section.members.map((member, idx) => (
+          <MemberCard key={idx} member={member} index={idx} />
         ))}
       </div>
     </div>
+  );
+};
+
+// --- Compact Card Component ---
+const MemberCard = ({ member, index }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      // WIDTH CONTROL:
+      // w-[45%]: fits 2 cards per row on small screens (with gap).
+      // md:w-[280px]: fixed width on desktop for uniformity.
+      className="group relative w-[45%] md:w-[280px] aspect-[4/5] bg-[#0a0a0a] rounded-xl overflow-hidden border border-white/10 hover:border-orange-500/50 transition-all duration-300 shadow-lg"
+    >
+      
+      {/* Image Layer */}
+      <div className="absolute inset-0 bg-gray-900">
+        {member.image ? (
+            <img
+            src={member.image}
+            alt={member.name}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale-[0.3] group-hover:grayscale-0"
+            />
+        ) : (
+            <div className="w-full h-full flex items-center justify-center bg-white/5">
+                <User size={40} className="text-white/20" />
+            </div>
+        )}
+        
+        {/* Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90" />
+        <div className="absolute inset-0 bg-gradient-to-t from-orange-900/60 to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay" />
+      </div>
+
+      {/* Content Layer */}
+      <div className="absolute bottom-0 left-0 w-full p-3 md:p-5 flex flex-col items-center text-center">
+        
+        <h3 className="text-sm md:text-lg font-bold text-white font-['Syncopate'] leading-tight group-hover:text-orange-400 transition-colors w-full truncate px-1">
+          {member.name}
+        </h3>
+        
+        <p className="text-[10px] md:text-xs text-gray-400 font-bold tracking-widest uppercase mt-1 mb-2 md:mb-3">
+          {member.role}
+        </p>
+
+        {/* Social Icons Logic: 
+            - Mobile: Visible & Centered
+            - Desktop: Hidden, slide up on hover
+        */}
+        <div className="flex gap-4 justify-center overflow-hidden transition-all duration-300
+                        h-auto opacity-100 
+                        md:h-0 md:opacity-0 md:group-hover:h-auto md:group-hover:opacity-100">
+          
+          {member.linkedin && (
+            <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors hover:scale-110">
+              <Linkedin size={16} />
+            </a>
+          )}
+          {member.instagram && (
+            <a href={member.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors hover:scale-110">
+              <Instagram size={16} />
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* Decorative Corner */}
+      <div className="absolute top-2 right-2 md:top-3 md:right-3 w-2 h-2 border-t border-r border-orange-500 opacity-50 group-hover:opacity-100 transition-opacity" />
+
+    </motion.div>
   );
 };
 
