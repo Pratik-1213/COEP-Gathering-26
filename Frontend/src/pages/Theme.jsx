@@ -11,13 +11,13 @@ const Theme = () => {
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
         
         {/* 1. The Central Tech Core */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150px] h-[150px] bg-orange-600/20 rounded-full blur-[80px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-37.5 h-37.5 bg-orange-600/20 rounded-full blur-[80px]" />
 
         {/* 2. Inner Gear (Fast, Tech-like) */}
         <motion.div 
             animate={{ rotate: 360 }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            className="absolute border border-orange-500/20 w-[300px] h-[300px] rounded-full border-dashed"
+            className="absolute border border-orange-500/20 w-75 h-75 rounded-full border-dashed"
         >
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-orange-500/50 rounded-full" />
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-4 h-4 bg-orange-500/50 rounded-full" />
@@ -27,7 +27,7 @@ const Theme = () => {
         <motion.div 
              animate={{ rotate: -360 }}
              transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-             className="absolute w-[500px] md:w-[600px] h-[500px] md:h-[600px] border border-white/5 rounded-full flex items-center justify-center"
+             className="absolute w-125 md:w-150 h-125 md:h-150 border border-white/5 rounded-full flex items-center justify-center"
         >
              {/* Creating Gear Teeth */}
              {[...Array(12)].map((_, i) => (
@@ -48,7 +48,7 @@ const Theme = () => {
         <motion.div 
              animate={{ rotate: 360 }}
              transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-             className="absolute w-[700px] md:w-[900px] h-[700px] md:h-[900px] border-[1px] border-white/5 rounded-full flex items-center justify-center opacity-50"
+             className="absolute w-175 md:w-225 h-175 md:h-225 border border-white/5 rounded-full flex items-center justify-center opacity-50"
         >
              {[...Array(8)].map((_, i) => (
                 <div 
@@ -108,7 +108,7 @@ const Theme = () => {
                 </div>
                 
                 <h2 
-                    className="text-5xl md:text-8xl lg:text-9xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-orange-400 to-orange-600 drop-shadow-[0_0_35px_rgba(234,88,12,0.4)]"
+                    className="text-5xl md:text-8xl lg:text-9xl font-black uppercase text-transparent bg-clip-text bg-linear-to-b from-white via-orange-400 to-orange-600 drop-shadow-[0_0_35px_rgba(234,88,12,0.4)]"
                     style={{ fontFamily: "'Cinzel Decorative', serif" }}
                 >
                     Anandotsav
