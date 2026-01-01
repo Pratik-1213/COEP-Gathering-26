@@ -9,8 +9,8 @@ const Team = () => {
       
       {/* --- Ambient Background --- */}
       <div className="fixed inset-0 pointer-events-none">
-         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-gradient-to-b from-red-900/20 to-transparent blur-[100px]" />
-         <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-orange-900/10 rounded-full blur-[120px]" />
+         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-100 bg-linear-to-b from-red-900/20 to-transparent blur-[100px]" />
+         <div className="absolute bottom-0 right-0 w-125 h-125 bg-orange-900/10 rounded-full blur-[120px]" />
          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10" />
       </div>
 
@@ -26,9 +26,9 @@ const Team = () => {
                 <Sparkles size={12} /> The Creators <Sparkles size={12} />
             </h3>
             <h1 className="text-4xl md:text-7xl font-black font-['Syncopate'] text-white uppercase drop-shadow-lg text-center leading-tight">
-                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Core Team</span>
+                Our <span className="text-transparent bg-clip-text bg-linear-to-r from-red-500 to-orange-500">Core Team</span>
             </h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent mt-6 rounded-full" />
+            <div className="w-24 h-1 bg-linear-to-r from-transparent via-orange-500 to-transparent mt-6 rounded-full" />
         </motion.div>
       </div>
 
@@ -56,11 +56,11 @@ const TeamSection = ({ section, index }) => {
         transition={{ duration: 0.5 }}
         className="flex items-center justify-center gap-4 mb-10 w-full max-w-2xl"
       >
-         <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/20" />
+         <div className="h-px flex-1 bg-linear-to-r from-transparent to-white/20" />
          <h2 className="text-2xl md:text-4xl font-bold text-white font-['Syncopate'] uppercase text-center tracking-wide">
            {section.title}
          </h2>
-         <div className="h-px flex-1 bg-gradient-to-r from-white/20 to-transparent" />
+         <div className="h-px flex-1 bg-linear-to-r from-white/20 to-transparent" />
       </motion.div>
 
       {/* LAYOUT FIX: 
@@ -87,7 +87,7 @@ const MemberCard = ({ member, index }) => {
       // WIDTH CONTROL:
       // w-[45%]: fits 2 cards per row on small screens (with gap).
       // md:w-[280px]: fixed width on desktop for uniformity.
-      className="group relative w-[45%] md:w-[280px] aspect-[4/5] bg-[#0a0a0a] rounded-xl overflow-hidden border border-white/10 hover:border-orange-500/50 transition-all duration-300 shadow-lg"
+      className="group relative w-[45%] md:w-70 aspect-4/5 bg-[#0a0a0a] rounded-xl overflow-hidden border border-white/10 hover:border-orange-500/50 transition-all duration-300 shadow-lg"
     >
       
       {/* Image Layer */}
@@ -105,8 +105,8 @@ const MemberCard = ({ member, index }) => {
         )}
         
         {/* Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90" />
-        <div className="absolute inset-0 bg-gradient-to-t from-orange-900/60 to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent opacity-90" />
+        <div className="absolute inset-0 bg-linear-to-t from-orange-900/60 to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay" />
       </div>
 
       {/* Content Layer */}

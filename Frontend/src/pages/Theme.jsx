@@ -1,85 +1,317 @@
-import React, { useState, useEffect } from 'react';
-import { Sparkles } from 'lucide-react';
+// Design 1
+import React from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Settings, Sparkles, MapPin } from 'lucide-react';
 
-export default function Theme() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
+const Theme = () => {
   return (
-    <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center relative overflow-hidden pt-32 pb-20 px-4">
+    <div className="min-h-screen w-full bg-[#050505] relative flex flex-col items-center justify-center overflow-hidden">
       
-      {/* Animated gradient orb - Red/Orange */}
-      <div 
-        className="fixed w-64 h-64 md:w-96 md:h-96 rounded-full opacity-20 blur-[100px] transition-all duration-300 pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, #ff4500, #dc2626, #7f1d1d)',
-          left: mousePosition.x - 192,
-          top: mousePosition.y - 192,
-          zIndex: 0
-        }}
-      />
-
-      {/* Subtle grid pattern */}
-      <div className="fixed inset-0 opacity-10 pointer-events-none" style={{
-        backgroundImage: 'linear-gradient(rgba(220, 38, 38, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(220, 38, 38, 0.1) 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-        zIndex: 0
-      }} />
-
-      {/* Main content */}
-      <div className="relative z-10 w-full max-w-5xl text-center mx-auto flex flex-col items-center">
+      {/* ================= BACKGROUND: THE ENGINEERING MANDALA ================= */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
         
-        {/* Decorative icon */}
-        <div className="mb-6 md:mb-8 flex justify-center">
-          <div className="relative">
-            <Sparkles className="w-12 h-12 md:w-16 md:h-16 text-orange-500 animate-pulse" />
-            <div className="absolute inset-0 blur-xl bg-orange-500 opacity-50 animate-pulse" />
-          </div>
-        </div>
+        {/* 1. The Central Tech Core */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150px] h-[150px] bg-orange-600/20 rounded-full blur-[80px]" />
 
-        {/* Theme name - Responsive Text Sizing */}
-        {/* Changed: text-5xl on mobile to prevent cutting off, scaling up to 9xl on desktop */}
-        <h1 className="w-full text-5xl sm:text-7xl md:text-9xl font-bold mb-6 md:mb-10 tracking-tight leading-tight">
-          <span className="inline-block bg-linear-to-r from-red-500 via-orange-500 to-amber-500 bg-clip-text text-transparent animate-gradient drop-shadow-[0_0_35px_rgba(234,88,12,0.4)] py-2" style={{
-            fontFamily: 'Georgia, serif',
-          }}>
-            Anandotsav
-          </span>
-        </h1>
+        {/* 2. Inner Gear (Fast, Tech-like) */}
+        <motion.div 
+            animate={{ rotate: 360 }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="absolute border border-orange-500/20 w-[300px] h-[300px] rounded-full border-dashed"
+        >
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-orange-500/50 rounded-full" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-4 h-4 bg-orange-500/50 rounded-full" />
+        </motion.div>
 
-        {/* Elegant divider */}
-        <div className="flex items-center justify-center gap-4 mb-8 md:mb-12 opacity-80">
-          <div className="h-px w-16 md:w-24 bg-linear-to-r from-transparent via-red-500 to-transparent" />
-          <div className="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_10px_orange]" />
-          <div className="h-px w-16 md:w-24 bg-linear-to-r from-transparent via-red-500 to-transparent" />
-        </div>
+        {/* 3. Middle Gear (The Cogwheel - Representing Engineering) */}
+        <motion.div 
+             animate={{ rotate: -360 }}
+             transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+             className="absolute w-[500px] md:w-[600px] h-[500px] md:h-[600px] border border-white/5 rounded-full flex items-center justify-center"
+        >
+             {/* Creating Gear Teeth */}
+             {[...Array(12)].map((_, i) => (
+                <div 
+                    key={i}
+                    className="absolute w-8 h-8 border border-orange-500/30 bg-black/50 backdrop-blur-sm"
+                    style={{
+                        top: '50%',
+                        left: '50%',
+                        transform: `translate(-50%, -50%) rotate(${i * 30}deg) translate(250px) md:translate(300px)`
+                    }}
+                />
+             ))}
+             <div className="w-[95%] h-[95%] border border-orange-500/10 rounded-full" />
+        </motion.div>
 
-        {/* Description */}
-        <p className="text-base sm:text-lg md:text-2xl text-gray-300 leading-relaxed max-w-3xl mx-auto mb-8 font-light px-2" style={{
-          letterSpacing: '0.02em',
-        }}>
-          A magnificent celebration where joy meets tradition, and hearts unite in harmony. Experience the essence of togetherness through vibrant cultural expressions, soulful melodies, and the timeless spirit of festivity.
-        </p>
+        {/* 4. Outer Ring (The Mandala - Representing Tradition) */}
+        <motion.div 
+             animate={{ rotate: 360 }}
+             transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+             className="absolute w-[700px] md:w-[900px] h-[700px] md:h-[900px] border-[1px] border-white/5 rounded-full flex items-center justify-center opacity-50"
+        >
+             {[...Array(8)].map((_, i) => (
+                <div 
+                    key={i}
+                    className="absolute w-4 h-4 bg-red-600/40 rounded-full blur-[2px]"
+                    style={{
+                        top: '50%',
+                        left: '50%',
+                        transform: `translate(-50%, -50%) rotate(${i * 45}deg) translate(350px) md:translate(450px)`
+                    }}
+                />
+             ))}
+        </motion.div>
 
-        {/* Subtitle */}
-        <p className="text-sm sm:text-base md:text-xl text-orange-400/80 italic max-w-2xl mx-auto px-4" style={{
-          fontFamily: 'Georgia, serif',
-        }}>
-          Where every moment becomes a cherished memory, and every gathering transforms into an eternal celebration of life's most precious gift — happiness.
-        </p>
-
+        {/* 5. Texture */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
       </div>
 
-      {/* Corner accents - Pushed to edges */}
-      <div className="absolute top-24 left-4 w-16 h-16 md:w-24 md:h-24 border-t-2 border-l-2 border-red-900/40 rounded-tl-3xl pointer-events-none" />
-      <div className="absolute bottom-8 right-4 w-16 h-16 md:w-24 md:h-24 border-b-2 border-r-2 border-red-900/40 rounded-br-3xl pointer-events-none" />
+
+      {/* ================= MAIN CONTENT ================= */}
+      <div className="relative z-10 flex flex-col items-center justify-center w-full h-full text-center px-4">
+
+        {/* --- COEP Branding --- */}
+        <motion.div 
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-8 flex flex-col items-center gap-2"
+        >
+            <div className="flex items-center gap-2 px-4 py-1.5 border border-orange-500/30 rounded-full bg-orange-950/20 backdrop-blur-md">
+                <MapPin size={12} className="text-orange-500" />
+                <span className="text-orange-100/80 font-bold tracking-widest text-[10px] uppercase">Shivajinagar, Pune</span>
+            </div>
+            <h3 className="text-white/60 font-mono text-sm tracking-[0.2em] mt-2 uppercase">
+                College of Engineering Pune
+            </h3>
+        </motion.div>
+
+        {/* --- MAIN TITLE BLOCK --- */}
+        <div className="relative py-4 md:py-10">
+            {/* The "2026" Big Number Background */}
+            <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-black text-white/5 select-none pointer-events-none" style={{ fontFamily: "'Syncopate', sans-serif" }}>
+                2026
+            </h1>
+
+            {/* The Main Event Title */}
+            <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="relative z-10"
+            >
+                <div className="flex items-center justify-center gap-4 mb-2">
+                     <div className="h-px w-8 md:w-20 bg-orange-500" />
+                     <span className="text-xl md:text-3xl font-light text-white tracking-[0.2em] uppercase">Gathering</span>
+                     <div className="h-px w-8 md:w-20 bg-orange-500" />
+                </div>
+                
+                <h2 
+                    className="text-5xl md:text-8xl lg:text-9xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-white via-orange-400 to-orange-600 drop-shadow-[0_0_35px_rgba(234,88,12,0.4)]"
+                    style={{ fontFamily: "'Cinzel Decorative', serif" }}
+                >
+                    Anandotsav
+                </h2>
+            </motion.div>
+        </div>
+
+
+        {/* --- Description & Details --- */}
+        <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="mt-12 max-w-3xl"
+        >
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 text-center md:text-left">
+                
+                {/* Left: The Quote */}
+                <div className="flex-1 border-r-0 md:border-r border-white/10 pr-0 md:pr-12">
+                    <p className="text-lg text-gray-300 font-light italic leading-relaxed">
+                        "Where every moment becomes a cherished memory, and every gathering transforms into an eternal celebration of life's most precious gift - happiness."
+                    </p>
+                </div>
+
+              
+
+            </div>
+        </motion.div>
+
+      </div>
     </div>
   );
-}
+};
+
+// --- Sub-Component: Feature Item ---
+const FeatureItem = ({ text }) => (
+    <div className="flex items-center gap-3 group cursor-default">
+        <div className="w-8 h-8 rounded-full bg-white/5 border border-orange-500/20 flex items-center justify-center group-hover:border-orange-500 transition-colors">
+            <Sparkles size={14} className="text-orange-500" />
+        </div>
+        <span className="text-sm font-bold text-gray-400 uppercase tracking-wider group-hover:text-white transition-colors">
+            {text}
+        </span>
+    </div>
+);
+
+export default Theme;
+
+
+// Design 2
+// import React, { useRef } from 'react';
+// import { motion, useScroll, useTransform } from 'framer-motion';
+// import { Flame } from 'lucide-react';
+
+// const Theme = () => {
+//   const containerRef = useRef(null);
+  
+//   // Parallax Scroll Effects
+//   const { scrollYProgress } = useScroll({ target: containerRef });
+//   const y = useTransform(scrollYProgress, [0, 1], [0, 100]); // Reduced parallax distance for smoother mobile feel
+//   const rotate = useTransform(scrollYProgress, [0, 1], [0, 45]);
+
+//   return (
+//     <div ref={containerRef} className="min-h-screen w-full bg-[#030000] relative flex flex-col items-center justify-center overflow-hidden py-16 md:py-32">
+      
+//       {/* ================= BACKGROUND: THE ECLIPSE ENGINE ================= */}
+//       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        
+//         {/* 1. Core Light Source (Smaller on Mobile) */}
+//         <motion.div
+//             animate={{ scale: [1, 1.2, 1] }}
+//             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+//             className="w-[180px] h-[180px] md:w-[300px] md:h-[300px] bg-orange-600 rounded-full blur-[80px] md:blur-[150px] opacity-50 md:opacity-60"
+//         />
+
+//         {/* 2. Rotating Rings (Responsive Sizes) */}
+//         {/* Outer Ring: 300px on mobile, 600px/900px on tablet/desktop */}
+//         <div className="absolute w-[300px] h-[300px] md:w-[600px] md:h-[600px] lg:w-[900px] lg:h-[900px] border-[1px] border-white/5 rounded-full flex items-center justify-center">
+//             <motion.div
+//                 style={{ rotate }}
+//                 className="w-full h-full border-t border-l border-orange-500/20 rounded-full"
+//             />
+//         </div>
+        
+//         {/* Inner Ring: 220px on mobile, 450px/650px on tablet/desktop */}
+//         <div className="absolute w-[220px] h-[220px] md:w-[450px] md:h-[450px] lg:w-[650px] lg:h-[650px] border-[1px] border-white/5 rounded-full flex items-center justify-center opacity-70">
+//             <motion.div
+//                 animate={{ rotate: -360 }}
+//                 transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+//                 className="w-full h-full border-b border-r border-red-500/30 rounded-full"
+//             />
+//         </div>
+
+//         {/* 3. Grain Texture */}
+//         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-15" />
+//       </div>
+
+
+//       {/* ================= MAIN CONTENT ================= */}
+//       <div className="relative z-10 w-full max-w-7xl px-4 md:px-6 flex flex-col items-center text-center">
+        
+//         {/* --- Top Tagline --- */}
+//         <motion.div
+//             initial={{ opacity: 0, y: -20 }}
+//             whileInView={{ opacity: 1, y: 0 }}
+//             transition={{ duration: 0.8 }}
+//             className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6"
+//         >
+//             <div className="h-px w-8 md:w-12 bg-orange-500" />
+//             <span className="text-orange-500 font-bold tracking-[0.2em] md:tracking-[0.4em] text-[10px] md:text-xs uppercase">COEP Gathering 2026</span>
+//             <div className="h-px w-8 md:w-12 bg-orange-500" />
+//         </motion.div>
+
+
+//         {/* --- MASSIVE TITLE LAYOUT --- */}
+//         <div className="relative w-full py-6 md:py-10">
+//             {/* Background Hollow Text (Depth Layer) */}
+//             <h1 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] md:text-[14vw] font-black text-transparent opacity-10 pointer-events-none select-none whitespace-nowrap"
+//                 style={{ WebkitTextStroke: '1px #fff', fontFamily: "'Syncopate', sans-serif" }}>
+//                 GATHERING
+//             </h1>
+
+//             {/* Foreground Main Text */}
+//             <motion.h2
+//                 initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)" }}
+//                 whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+//                 transition={{ duration: 1, ease: "easeOut" }}
+//                 className="relative text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white uppercase leading-none drop-shadow-2xl"
+//                 style={{ fontFamily: "'Syncopate', sans-serif" }}
+//             >
+//                  <br className="hidden md:block"/>
+//                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 animate-gradient-x">
+//                     ANANDOTSAV
+//                 </span>
+//             </motion.h2>
+//         </div>
+
+
+//         {/* --- Description Box --- */}
+//         <motion.div
+//             initial={{ opacity: 0, y: 50 }}
+//             whileInView={{ opacity: 1, y: 0 }}
+//             transition={{ delay: 0.3, duration: 0.8 }}
+//             className="mt-8 md:mt-12 max-w-xs md:max-w-2xl bg-white/5 backdrop-blur-md border border-white/10 p-6 md:p-8 rounded-2xl relative group hover:border-orange-500/30 transition-colors"
+//         >
+//             {/* Decorative Icon */}
+//             <div className="absolute -top-5 md:-top-6 left-1/2 -translate-x-1/2 bg-[#030000] p-2 md:p-3 rounded-full border border-white/10">
+//                 <Flame className="text-orange-500 fill-orange-500/20 w-5 h-5 md:w-6 md:h-6" />
+//             </div>
+
+//             <p className="text-sm md:text-xl text-gray-300 font-light leading-relaxed">
+//                 "From the spark of tradition to the roar of celebration. This year, we don't just celebrate joy; we <b className="text-white">ignite</b> it. Join us as we illuminate the night."
+//             </p>
+
+//         </motion.div>
+
+//       </div>
+
+//       {/* --- Floating Particles (Atmosphere) --- */}
+//       <div className="absolute inset-0 pointer-events-none overflow-hidden">
+//          <FloatingEmbers />
+//       </div>
+
+//     </div>
+//   );
+// };
+
+// // --- Sub-Component: Floating Embers ---
+// const FloatingEmbers = () => {
+//     const particles = Array.from({ length: 20 }).map((_, i) => ({
+//         id: i,
+//         size: Math.random() * 3 + 1, // Slightly smaller particles
+//         left: Math.random() * 100,
+//         duration: Math.random() * 10 + 10,
+//         delay: Math.random() * 5
+//     }));
+
+//     return (
+//         <>
+//             {particles.map((p) => (
+//                 <motion.div
+//                     key={p.id}
+//                     className="absolute bottom-0 rounded-full bg-orange-500 blur-[1px]"
+//                     style={{
+//                         width: p.size,
+//                         height: p.size,
+//                         left: `${p.left}%`,
+//                     }}
+//                     animate={{
+//                         y: [0, -window.innerHeight],
+//                         opacity: [0, 0.8, 0], // Slightly reduced opacity
+//                         x: [0, Math.random() * 30 - 15] 
+//                     }}
+//                     transition={{
+//                         duration: p.duration,
+//                         repeat: Infinity,
+//                         delay: p.delay,
+//                         ease: "linear"
+//                     }}
+//                 />
+//             ))}
+//         </>
+//     );
+// };
+
+// export default Theme;
