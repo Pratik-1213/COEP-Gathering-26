@@ -4,41 +4,42 @@ import { Ticket, Calendar, MapPin, Clock } from "lucide-react";
 
 const events = [
   {
-    name: "Star Night",
+    name: "Variety",
+    time: "5:00 PM",
+    venue: "Open Arena",
+    desc: "A power-packed mix of performances, fun acts, surprises, and pure entertainment.",
+    image: "/images/imgp1.jpg",
+  },
+  {
+    name: "Musical Night",
     time: "7:00 PM",
     venue: "Main Stage",
-    desc: "Celebrity performances, band showdown, and a dazzling light show.",
-    image: "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=800"
+    desc: "An electrifying night of music, lights, rhythm, and unforgettable vibes.",
+    image: "/images/imgp2.jpg",
   },
   {
-    name: "Tech Expo",
-    time: "11:00 AM",
-    venue: "Innovation Hall",
-    desc: "Showcase of projects, AR/VR zone, and live tech demos.",
-    image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=800"
-  },
-  {
-    name: "Cultural Fiesta",
+    name: "Drama",
     time: "4:00 PM",
-    venue: "Open Arena",
-    desc: "Dance, drama, and folk performances from across the country.",
-    image: "https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&w=800"
+    venue: "Auditorium",
+    desc: "Intense storytelling, emotions, and powerful performances brought alive on stage.",
+    image: "/images/imgp3.jpg",
   },
   {
-    name: "Gaming Arena",
-    time: "1:00 PM",
-    venue: "Lab Block",
-    desc: "E-sports tournaments, casual gaming zone, and mini-prizes.",
-    image: "https://images.pexels.com/photos/786244/pexels-photo-786244.jpeg?auto=compress&cs=tinysrgb&w=800"
+    name: "Refreshment",
+    time: "All Day",
+    venue: "Food Court",
+    desc: "Delicious food stalls, refreshing drinks, and quick bites to keep you energized.",
+    image: "/images/imgp4.jpg",
   },
   {
-    name: "Art & Open Mic",
-    time: "3:00 PM",
-    venue: "Studio Lounge",
-    desc: "Live music, poetry, stand-up, and art exhibition corners.",
-    image: "https://images.pexels.com/photos/164745/pexels-photo-164745.jpeg?auto=compress&cs=tinysrgb&w=800"
-  }
+    name: "Kavya",
+    time: "6:00 PM",
+    venue: "Amphitheatre",
+    desc: "An evening of poetry, expressions, soulful words, and heartfelt emotions.",
+    image: "/images/imgp5.jpg",
+  },
 ];
+
 
 const Passes = () => {
   return (
@@ -130,10 +131,16 @@ const EventCard = ({ event, index }) => {
         </p>
 
         {/* Button */}
-        <button className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold tracking-widest uppercase hover:bg-linear-to-r hover:from-red-600 hover:to-orange-600 hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+        <button
+          onClick={() =>
+            window.open("https://www.pass-distribution.sdscoeptech.club/", "_blank")
+          }
+          className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold tracking-widest uppercase hover:bg-linear-to-r hover:from-red-600 hover:to-orange-600 hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.4)]"
+        >
           <Ticket size={18} />
           Get Passes
         </button>
+
       </div>
     </motion.div>
   );

@@ -40,32 +40,14 @@ const letterVariant = {
 };
 
 // --- Data (24 Images) ---
-const images = [
-  { id: 1, src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2070", title: "Crowd Euphoria", year: "2026", desc: "The roar of the stadium." },
-  { id: 2, src: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?q=80&w=2070", title: "Neon Nights", year: "2026", desc: "Dancing under the lights." },
-  { id: 3, src: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=2070", title: "Main Stage", year: "2026", desc: "Where magic happens." },
-  { id: 4, src: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?q=80&w=1974", title: "The Vibe", year: "2026", desc: "Unfiltered energy." },
-  { id: 5, src: "https://images.unsplash.com/photo-1533174072545-e8d4aa97edf9?q=80&w=1974", title: "After Hours", year: "2026", desc: "The party never ends." },
-  { id: 6, src: "https://images.unsplash.com/photo-1506157782155-2b412a0166be?q=80&w=2070", title: "Confetti Rain", year: "2026", desc: "A sky full of colors." },
-  { id: 7, src: "https://images.unsplash.com/photo-1516450360452-9312bcd7e80c?q=80&w=2070", title: "Electric Soul", year: "2026", desc: "Lost in the rhythm." },
-  { id: 8, src: "https://images.unsplash.com/photo-1459749411177-712961561f1c?q=80&w=2070", title: "Golden Hour", year: "2026", desc: "Sunset vibes & good times." },
-  { id: 9, src: "https://images.unsplash.com/photo-1524368535928-5b561239f3ed?q=80&w=2070", title: "Vocal Power", year: "2026", desc: "Voices that echo." },
-  { id: 10, src: "https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?q=80&w=2070", title: "Laser Storm", year: "2026", desc: "Piercing the darkness." },
-  { id: 11, src: "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?q=80&w=2070", title: "Festival Spirit", year: "2026", desc: "United by sound." },
-  { id: 12, src: "https://images.unsplash.com/photo-1574169208507-84376194878d?q=80&w=2069", title: "Bass Drop", year: "2026", desc: "Wait for it..." },
-  { id: 13, src: "https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2070", title: "Spotlight", year: "2026", desc: "The center of attention." },
-  { id: 14, src: "https://images.unsplash.com/photo-1598387993441-a364f854c3e1?q=80&w=2076", title: "Unplugged", year: "2026", desc: "Raw acoustic emotions." },
-  { id: 15, src: "https://images.unsplash.com/photo-1530419248307-be80b9468e77?q=80&w=2070", title: "Drumline", year: "2026", desc: "Heartbeat of the night." },
-  { id: 16, src: "https://images.unsplash.com/photo-1519750157634-b6d493a0f77c?q=80&w=2070", title: "Silent Disco", year: "2026", desc: "Rhythm in the mind." },
-  { id: 17, src: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=2070", title: "Surfing Waves", year: "2026", desc: "Hands in the air." },
-  { id: 18, src: "https://images.unsplash.com/photo-1516280440614-6697288d5d38?q=80&w=2070", title: "Techno Tunnel", year: "2026", desc: "Future sounds." },
-  { id: 19, src: "https://images.unsplash.com/photo-1621319664082-881e1945f3ba?q=80&w=2070", title: "Rock Anthem", year: "2026", desc: "Strings on fire." },
-  { id: 20, src: "https://images.unsplash.com/photo-1563841930606-67e26ce48b75?q=80&w=2070", title: "Backstage", year: "2026", desc: "Before the curtain rises." },
-  { id: 21, src: "https://images.unsplash.com/photo-1533130061792-64b345e4a833?q=80&w=2070", title: "Road Trip", year: "2026", desc: "Journey to the venue." },
-  { id: 22, src: "https://images.unsplash.com/photo-1505236858274-87f50f87d2b3?q=80&w=2070", title: "Sunset Chill", year: "2026", desc: "Moments of peace." },
-  { id: 23, src: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?q=80&w=2070", title: "Grand Finale", year: "2026", desc: "Ending with a bang." },
-  { id: 24, src: "https://images.unsplash.com/photo-1496337589254-7e19d01cec44?q=80&w=2070", title: "Afterparty", year: "2026", desc: "Until the sun comes up." },
-];
+const images = Array.from({ length: 29 }, (_, i) => ({
+  id: i + 1,
+  src: `/images/gallery-${String(i + 1).padStart(2, "0")}.JPG`,
+  title: `Moment ${i + 1}`,
+  year: "2026",
+  desc: "A memory from Gathering '25",
+}));
+
 
 const Gallery = () => {
   const [activeId, setActiveId] = useState(1);
@@ -130,7 +112,7 @@ const Gallery = () => {
           variants={containerVariant}
         >
           <motion.p variants={textVariant} className="text-red-500 font-bold tracking-[0.4em] text-sm uppercase mb-4">
-            Gathering '26 Archives
+            Gathering '25 Archives
           </motion.p>
           
           <h1 className="font-['Syncopate'] text-5xl md:text-7xl lg:text-9xl font-bold leading-none overflow-hidden flex flex-wrap justify-center md:justify-start gap-2">

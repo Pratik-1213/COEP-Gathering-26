@@ -1,92 +1,51 @@
 export const events = [
   {
-    "id": 1,
-    "text": "Opening Ceremony",
-    "description": "The grand opening of the gathering with welcome speech and lamp lighting.",
-    "image": "/images/opening.webp",
+    id: 1,
+    text: "AnC Exhibition",
+    description:
+      "A vibrant exhibition showcasing art, creativity, and innovation by talented minds across the campus.",
+    image: "/images/img1.jpg",
   },
   {
-    "id": 2,
-    "text": "Cultural Night",
-    "description": "An evening filled with dance, music, and cultural performances.",
-    "image": "/images/cultural.jpeg",
+    id: 2,
+    text: "Drama",
+    description:
+      "Powerful performances, emotions, and storytelling brought alive on stage by brilliant performers.",
+    image: "/images/img2.jpg",
   },
   {
-    "id": 3,
-    "text": "Food Fiesta",
-    "description": "A variety of delicious cuisines and food stalls for everyone.",
-    "image": "/images/food.jpg",
+    id: 3,
+    text: "Traditional Day",
+    description:
+      "A celebration of culture, heritage, and tradition with colors, grace, and timeless elegance.",
+    image: "/images/img3.jpg",
   },
   {
-    "id": 4,
-    "text": "Opening Ceremony",
-    "description": "The grand opening of the gathering with welcome speech and lamp lighting.",
-    "image": "/images/opening.webp",
+    id: 4,
+    text: "Variety",
+    description:
+      "An energetic mix of performances, surprises, and fun that keeps the excitement alive.",
+    image: "/images/img4.jpg",
   },
   {
-    "id": 5,
-    "text": "Cultural Night",
-    "description": "An evening filled with dance, music, and cultural performances.",
-    "image": "/images/cultural.jpeg",
+    id: 5,
+    text: "Musical Night",
+    description:
+      "An electrifying night filled with rhythm, melodies, lights, and unforgettable vibes.",
+    image: "/images/img5.jpg",
   },
   {
-    "id": 6,
-    "text": "Food Fiesta",
-    "description": "A variety of delicious cuisines and food stalls for everyone.",
-    "image": "/images/food.jpg",
+    id: 6,
+    text: "Kavya",
+    description:
+      "An evening of poetry, expressions, and soulful words that touch hearts and minds.",
+    image: "/images/img6.jpg",
   },
   {
-    "id": 7,
-    "text": "Opening Ceremony",
-    "description": "The grand opening of the gathering with welcome speech and lamp lighting.",
-    "image": "/images/opening.webp",
+    id: 7,
+    text: "Bike Show",
+    description:
+      "Roaring engines, stunning machines, and adrenaline-packed moments on display.",
+    image: "/images/img7.jpg",
   },
-  {
-    "id": 8,
-    "text": "Cultural Night",
-    "description": "An evening filled with dance, music, and cultural performances.",
-    "image": "/images/cultural.jpeg",
-  },
-  {
-    "id": 9,
-    "text": "Food Fiesta",
-    "description": "A variety of delicious cuisines and food stalls for everyone.",
-    "image": "/images/food.jpg",
-  },
-  {
-    "id": 10,
-    "text": "Opening Ceremony",
-    "description": "The grand opening of the gathering with welcome speech and lamp lighting.",
-    "image": "/images/opening.webp",
-  },
-  {
-    "id": 11,
-    "text": "Cultural Night",
-    "description": "An evening filled with dance, music, and cultural performances.",
-    "image": "/images/cultural.jpeg",
-  },
-  {
-    "id": 12,
-    "text": "Food Fiesta",
-    "description": "A variety of delicious cuisines and food stalls for everyone.",
-    "image": "/images/food.jpg",
-  },
-  {
-    "id": 13,
-    "text": "Opening Ceremony",
-    "description": "The grand opening of the gathering with welcome speech and lamp lighting.",
-    "image": "/images/opening.webp",
-  },
-  {
-    "id": 14,
-    "text": "Cultural Night",
-    "description": "An evening filled with dance, music, and cultural performances.",
-    "image": "/images/cultural.jpeg",
-  },
-  {
-    "id": 15,
-    "text": "Food Fiesta",
-    "description": "A variety of delicious cuisines and food stalls for everyone.",
-    "image": "/images/food.jpg",
-  }
-]
+];
